@@ -1,0 +1,52 @@
+package com.queen.chatbot;
+
+import java.text.Normalizer;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Pattern;
+
+public class Chatbot {
+        private Map<String, String> questionAnswerDatabase;
+
+        public Chatbot() {
+                questionAnswerDatabase = new HashMap<>();
+
+                // Perguntas e respostas mapeadas
+                questionAnswerDatabase.put(normalize("Qual o horário das aulas?"),
+                                "As aulas acontecem em vários horários ao longo do dia, geralmente começando às 6h da manhã e indo até às 21h. Para mais detalhes e horários específicos, entre em contato conosco diretamente no Instagram: https://www.instagram.com/queenfitness261?igsh=MTI3Mno1aDNmemNqcA==");
+
+                questionAnswerDatabase.put(normalize("Quanto custa a mensalidade e quais são os planos disponíveis?"),
+                                "Oferecemos diferentes planos para atender às suas necessidades, incluindo planos mensais, trimestrais e semestrais. Os valores podem variar de acordo com o plano escolhido. Para mais informações sobre preços, entre em contato conosco diretamente no Instagram: https://www.instagram.com/queenfitness261?igsh=MTI3Mno1aDNmemNqcA==");
+
+                questionAnswerDatabase.put(normalize("Preciso ter experiência para começar a treinar na Queenfit?"),
+                                "Não, você não precisa de experiência anterior. As aulas são adaptadas para todos os níveis, desde iniciantes até os mais avançados. Nossas instrutoras estão preparadas para ajustar os exercícios de acordo com seu nível de condicionamento físico.");
+
+                questionAnswerDatabase.put(normalize("Como funciona a aula experimental?"),
+                                "Oferecemos uma aula experimental gratuita para novos alunos! Basta agendar uma aula em um dos horários disponíveis e vir conhecer nossa metodologia e estrutura. Para agendar, entre em contato conosco diretamente no Instagram: https://www.instagram.com/queenfitness261?igsh=MTI3Mno1aDNmemNqcA==");
+
+                questionAnswerDatabase.put(normalize("O que devo levar para a primeira aula?"),
+                                "Para a sua primeira aula, recomendamos usar roupas leves e confortáveis, além de um par de tênis. Também é importante trazer uma garrafa de água e toalha. Não se preocupe com equipamentos, pois fornecemos tudo que você precisa.");
+
+                questionAnswerDatabase.put(normalize(
+                                "A academia oferece planos de treinamento para diferentes níveis de fitness?"),
+                                "Sim, nossos treinos são escalonáveis para todos os níveis de condicionamento físico. Seja você iniciante ou avançado, nossas coaches estão preparadas para ajustar os exercícios para garantir que você tenha um treino seguro e eficaz.");
+
+                questionAnswerDatabase.put(normalize("Há acompanhamento nutricional na academia?"),
+                                "Temos parcerias com nutricionistas que podem auxiliar no planejamento de sua alimentação. Fale com a recepção para mais informações sobre como agendar uma consulta ou para indicações de profissionais parceiros.");
+
+                questionAnswerDatabase.put(normalize("Posso fazer crossfit mesmo com lesões anteriores?"),
+                                "Sim, nossos instrutores são capacitados para ajustar os treinos conforme suas necessidades e condições físicas. Recomendamos que você converse com um dos nossos professores sobre qualquer lesão pré-existente antes de iniciar os treinos, para que possamos adaptar o treino adequadamente.");
+        }
+
+        private String normalize(String input) {
+                String normalized = Normalizer.normalize(input, Normalizer.Form.NFD);
+                return Pattern.compile("\\p{InCombiningDiacriticalMarks}+").matcher(normalized).replaceAll("")
+                                .toLowerCase()
+                                .trim();
+        }
+
+        public String getResponse(String userInput) {
+                String cleanedInput = normalize(userInput);
+                return questionAnswerDatabase.getOrDefault(cleanedInput, "Desculpe, não entendi sua pergunta.");
+        }
+}
